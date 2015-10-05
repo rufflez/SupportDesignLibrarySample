@@ -17,8 +17,6 @@ import java.util.List;
  */
 public class TabsActivity extends AppCompatActivity {
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
