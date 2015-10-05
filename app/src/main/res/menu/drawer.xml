@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_labels"
+            android:title="@string/floating_labels"/>
+
+        <item
+            android:id="@+id/drawer_fab"
+            android:title="@string/fab"/>
+
+        <item
+            android:id="@+id/drawer_snackbar"
+            android:title="@string/snackbar"/>
+
+        <item
+            android:id="@+id/drawer_tabs"
+            android:title="@string/tabs"/>
+        <item
+            android:id="@+id/drawer_coordinator"
+            android:title="@string/coordinator"/>
+
+    </group>
+
+</menu>

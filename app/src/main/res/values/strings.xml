@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Application</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello">Sample Android Design Support Library App</string>
+
+    <string name="floating_labels">Floating Labels</string>
+    <string name="fab">Floating Action Button</string>
+    <string name="snackbar">Snackbar</string>
+    <string name="tabs">Tabs</string>
+    <string name="coordinator">Coordinator Layout</string>
+
+</resources>
