@@ -1,6 +1,5 @@
 package com.example.rufflez.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -10,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,17 +22,32 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar)findViewById(R.id.mToolbar);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.mToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        final ViewPager viewPager = (ViewPager)findViewById(R.id.tab_viewpager);
-        setupViewPager(viewPager);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+
+        NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
+        if (navView != null){
+            setupDrawerContent(navView);
+        }
+
+        viewPager = (ViewPager)findViewById(R.id.tab_viewpager);
+        if (viewPager != null){
+            setupViewPager(viewPager);
+        }
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
@@ -54,48 +69,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.navigation_view);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+    }
+
+    private void setupViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new FloatingLabelsFragment(), "Floating Labels");
+        adapter.addFrag(new FABLayoutFragment(), "FAB");
+        adapter.addFrag(new SnackBarFragment(), "Snackbar");
+        adapter.addFrag(new CoordinatorFragment(), "Coordinator Layout");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView){
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
-                /*
-                switch (menuItem.getItemId()){
+
+                switch (menuItem.getItemId()) {
                     case R.id.drawer_labels:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentView, new FloatingLabelsFragment()).commit();
+                        viewPager.setCurrentItem(0);
                         break;
                     case R.id.drawer_fab:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentView, new FABLayoutFragment()).commit();
+                        viewPager.setCurrentItem(1);
                         break;
                     case R.id.drawer_snackbar:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentView, new SnackBarFragment()).commit();
-                        break;
-                    case R.id.drawer_tabs:
-                        //getSupportFragmentManager().beginTransaction().replace(R.id.contentView, new TabsFragment()).commit();
-                        Intent i = new Intent(MainActivity.this, TabsActivity.class);
-                        startActivity(i);
+                        viewPager.setCurrentItem(2);
                         break;
                     case R.id.drawer_coordinator:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.contentView, new CoordinatorFragment()).commit();
+                        viewPager.setCurrentItem(3);
                         break;
                 }
-                */
+
                 drawerLayout.closeDrawers();
                 return true;
             }
         });
     }
 
-    private void setupViewPager(ViewPager viewPager){
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.accent_material_light)), "PAGE 1");
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.ripple_material_light)), "PAGE 2");
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.ripple_material_dark)), "PAGE 3");
-        viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    static class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -146,7 +158,12 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id){
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+
                 return true;
         }
 
