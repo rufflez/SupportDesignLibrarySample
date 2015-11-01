@@ -29,15 +29,6 @@ public class CoordinatorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.coordinator_layout, container, false);
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout)rootView.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("FAB Layout");
-        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab1);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Hello", Toast.LENGTH_LONG).show();
-            }
-        });
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerView);
         setupRecyclerView(recyclerView);
         return rootView;

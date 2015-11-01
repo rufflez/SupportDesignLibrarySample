@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab1"
+        android:id="@+id/fab2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         app:fabSize="normal"
         android:src="@drawable/ic_backup_white_48dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="72dp"/>
+        android:layout_marginBottom="16dp"/>
 </FrameLayout>

@@ -16,9 +16,6 @@
             android:title="@string/snackbar"/>
 
         <item
-            android:id="@+id/drawer_tabs"
-            android:title="@string/tabs"/>
-        <item
             android:id="@+id/drawer_coordinator"
             android:title="@string/coordinator"/>
 
