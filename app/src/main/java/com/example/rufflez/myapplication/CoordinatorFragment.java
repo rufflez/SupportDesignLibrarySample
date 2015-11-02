@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,12 +42,10 @@ public class CoordinatorFragment extends Fragment {
     }
 
     public static class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder>{
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
         private String[] mValues;
+        private Context mContext;
 
         public static class ViewHolder extends RecyclerView.ViewHolder {
-            public String mBoundString;
 
             public final View mView;
             public final TextView mTextView;
@@ -57,10 +56,6 @@ public class CoordinatorFragment extends Fragment {
                 mTextView = (TextView) view.findViewById(android.R.id.text1);
             }
 
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTextView.getText();
-            }
         }
 
         public String getValueAt(int position) {
@@ -68,8 +63,7 @@ public class CoordinatorFragment extends Fragment {
         }
 
         public SimpleStringRecyclerViewAdapter(Context context, String[] items) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
+            mContext = context;
             mValues = items;
         }
 
@@ -77,14 +71,18 @@ public class CoordinatorFragment extends Fragment {
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(android.R.layout.simple_list_item_1, parent, false);
-            view.setBackgroundResource(mBackground);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mBoundString = mValues[position];
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.mTextView.setText(mValues[position]);
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Snackbar.make(v, getValueAt(position), Snackbar.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
